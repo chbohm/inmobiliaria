@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-import type { AuthenticatedUser, LoginRequest, LoginResponse } from '@inmobiliaria/contracts';
+import type { AuthenticatedUser, LoginRequest, LoginResponse, RefreshRequest } from '@inmobiliaria/contracts';
 
 import { API_BASE_URL } from '../config/api.config';
 
@@ -21,6 +21,10 @@ export class AuthApiService {
 
   public me() {
     return this.http.get<MeResponse>(`${this.apiBaseUrl}/auth/me`);
+  }
+
+  public refresh(payload: RefreshRequest) {
+    return this.http.post<LoginResponse>(`${this.apiBaseUrl}/auth/refresh`, payload);
   }
 
   public logout() {

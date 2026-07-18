@@ -42,6 +42,10 @@ export const routes: Routes = [
 			{
 				path: 'dashboard',
 				loadComponent: () => import('./features/tenant/pages/tenant-dashboard-page.component').then((m) => m.TenantDashboardPageComponent)
+			},
+			{
+				path: 'properties',
+				loadComponent: () => import('./features/tenant/pages/tenant-properties-page.component').then((m) => m.TenantPropertiesPageComponent)
 			}
 		]
 	},

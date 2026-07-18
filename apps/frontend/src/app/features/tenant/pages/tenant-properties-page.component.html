@@ -1,0 +1,41 @@
+<section class="properties-page">
+  <header class="properties-page__header">
+    <div>
+      <p class="eyebrow">Inmuebles</p>
+      <h2>Inventario operativo</h2>
+      <p>Listado inicial de inmuebles consumido desde `GET /api/v1/properties` con autenticacion tenant.</p>
+    </div>
+
+    <button type="button" (click)="reload()">Recargar</button>
+  </header>
+
+  <p class="state" *ngIf="isLoading()">Cargando inmuebles...</p>
+  <p class="state state--error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+  <div class="empty" *ngIf="!isLoading() && !errorMessage() && items().length === 0">
+    No hay inmuebles cargados para esta inmobiliaria.
+  </div>
+
+  <div class="properties-grid" *ngIf="!isLoading() && items().length > 0">
+    <article class="property-card" *ngFor="let item of items()">
+      <div class="property-card__top">
+        <span>{{ item.tipo }}</span>
+        <strong>{{ item.estado }}</strong>
+      </div>
+
+      <h3>{{ item.direccion }}</h3>
+      <p>{{ item.ciudad }}, {{ item.provincia }}</p>
+
+      <dl>
+        <div>
+          <dt>Superficie total</dt>
+          <dd>{{ item.superficies?.total ?? 0 }} m2</dd>
+        </div>
+        <div>
+          <dt>Banos</dt>
+          <dd>{{ item.banios }}</dd>
+        </div>
+      </dl>
+    </article>
+  </div>
+</section>
