@@ -125,13 +125,29 @@ export const AttachmentTypeSchema = z.enum([
 
 
 export const AttachmentSchema = z.object({
-  idAttachment: UUIDSchema,
-  idInmobiliaria: UUIDSchema,
-  fileName: z.string(),
-  dataUrl: z.string(),
-  type: AttachmentTypeSchema
-});
 
+  idAttachment:
+    UUIDSchema,
+
+  idInmobiliaria:
+    UUIDSchema,
+
+  fileName:
+    z.string(),
+
+  type:
+    AttachmentTypeSchema,
+
+  mimeType:
+    z.string(),
+
+  dataUrl:
+    z.string(),
+
+  createdAt:
+    DateSchema
+
+});
 
 export const ConfiguracionInmobiliariaSchema = z.object({
 
