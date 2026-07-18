@@ -8,10 +8,17 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build -w @inmobiliaria/contracts && npm run build -w @inmobiliaria/backend",
+    "build": "npm run build -w @inmobiliaria/contracts && npm run build -w @inmobiliaria/backend && npm run build -w @inmobiliaria/frontend",
     "build:backend": "npm run build -w @inmobiliaria/backend",
     "build:contracts": "npm run build -w @inmobiliaria/contracts",
+    "build:frontend": "npm run build -w @inmobiliaria/frontend",
+    "dev": "npm run build:contracts && concurrently -k -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev -w @inmobiliaria/backend",
+    "dev:frontend": "npm run start -w @inmobiliaria/frontend -- --host 0.0.0.0 --port 4200",
     "debug-qa": "npm run debug-qa -w @inmobiliaria/backend",
     "debug": "npm run debug -w @inmobiliaria/backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

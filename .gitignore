@@ -1,4 +1,6 @@
 node_modules/
 lib/
 apps/backend/dist/
+apps/frontend/.angular/
+apps/frontend/dist/
 packages/contracts/dist/

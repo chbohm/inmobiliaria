@@ -1,0 +1,20 @@
+:root {
+	color-scheme: light;
+	background:
+		radial-gradient(circle at top, rgba(255, 229, 196, 0.8), transparent 30%),
+		linear-gradient(180deg, #f4ede2 0%, #efe4d3 42%, #f7f1e8 100%);
+}
+
+html,
+body {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	background: transparent;
+}
+
+* {
+	box-sizing: border-box;
+}
