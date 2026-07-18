@@ -1,0 +1,19 @@
+<section class="shell">
+  <header class="shell__header">
+    <div>
+      <p class="eyebrow">Tenant</p>
+      <h1>Operacion inmobiliaria</h1>
+    </div>
+
+    <div class="shell__meta">
+      <span>{{ user()?.email }}</span>
+      <span>{{ inmobiliariaId() }}</span>
+      <a routerLink="/tenant/dashboard">Dashboard</a>
+      <button type="button" (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main class="shell__content">
+    <router-outlet />
+  </main>
+</section>

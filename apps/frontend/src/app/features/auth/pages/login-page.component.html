@@ -1,0 +1,58 @@
+<main class="login-page">
+  <section class="login-page__intro">
+    <p class="eyebrow">Inmobiliaria SaaS</p>
+    <h1>Base Angular para sistema y tenant</h1>
+    <p>
+      La UI consume contratos compartidos, autentica contra el backend real y separa experiencia de sistema y tenant desde el routing.
+    </p>
+
+    <div class="login-page__notes">
+      <div>
+        <strong>Sistema</strong>
+        <span>admin&#64;local.test / changeit123</span>
+      </div>
+      <div>
+        <strong>Tenant</strong>
+        <span>Requiere inmobiliariaId ademas de email y password.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="login-card">
+    <div class="login-card__header">
+      <p class="eyebrow">Auth</p>
+      <h2>Iniciar sesion</h2>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+      <label>
+        <span>Scope</span>
+        <select formControlName="scope">
+          <option value="SYSTEM">SYSTEM</option>
+          <option value="TENANT">TENANT</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="email" placeholder="admin@local.test" />
+      </label>
+
+      <label>
+        <span>Password</span>
+        <input type="password" formControlName="password" placeholder="changeit123" />
+      </label>
+
+      <label *ngIf="needsTenantId">
+        <span>Inmobiliaria ID</span>
+        <input type="text" formControlName="inmobiliariaId" placeholder="UUID de la inmobiliaria" />
+      </label>
+
+      <p class="login-form__error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+      <button type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </form>
+  </section>
+</main>

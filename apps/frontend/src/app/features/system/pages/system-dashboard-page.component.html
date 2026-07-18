@@ -1,0 +1,14 @@
+<section class="dashboard">
+  <article class="dashboard__hero">
+    <p class="eyebrow">Dashboard</p>
+    <h2>Operacion de sistema</h2>
+    <p>Este shell ya separa el backoffice de sistema del espacio operativo tenant y queda listo para sumar features lazy por area.</p>
+  </article>
+
+  <div class="dashboard__grid">
+    <article class="dashboard__card" *ngFor="let card of cards">
+      <h3>{{ card[0] }}</h3>
+      <p>{{ card[1] }}</p>
+    </article>
+  </div>
+</section>

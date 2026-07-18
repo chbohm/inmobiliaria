@@ -1,0 +1,18 @@
+<section class="shell">
+  <header class="shell__header">
+    <div>
+      <p class="eyebrow">Sistema</p>
+      <h1>Backoffice multi-tenant</h1>
+    </div>
+
+    <div class="shell__actions">
+      <span>{{ userLabel() }}</span>
+      <a routerLink="/system/dashboard">Dashboard</a>
+      <button type="button" (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <main class="shell__content">
+    <router-outlet />
+  </main>
+</section>

@@ -1,0 +1,14 @@
+<section class="dashboard">
+  <article class="dashboard__hero">
+    <p class="eyebrow">Dashboard</p>
+    <h2>Vista operativa tenant</h2>
+    <p>Este espacio queda listo para crecer con inmuebles, contratos, pagos y tareas usando contratos compartidos y guards por scope.</p>
+  </article>
+
+  <div class="dashboard__grid">
+    <article class="dashboard__card" *ngFor="let card of cards">
+      <h3>{{ card[0] }}</h3>
+      <p>{{ card[1] }}</p>
+    </article>
+  </div>
+</section>

@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { Express } from 'express';
 
 import { errorHandler } from '../middlewares/error-handler';
@@ -18,6 +19,7 @@ export interface AppServices {
 export function createServer(services: AppServices): Express {
     const app = express();
 
+    app.use(cors({ origin: true, credentials: true }));
     app.use(express.json({ limit: '2mb' }));
     app.use(requestContextMiddleware);
     app.use('/api/v1', createApiRouter(services));

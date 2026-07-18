@@ -1,0 +1,112 @@
+:host {
+  display: block;
+}
+
+.login-page {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #b26034;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.login-page__intro,
+.login-card {
+  border: 1px solid rgba(28, 36, 41, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 20px 60px rgba(42, 36, 28, 0.08);
+  padding: 28px;
+}
+
+h1,
+h2,
+p,
+span,
+strong,
+input,
+select,
+button {
+  font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+}
+
+h1,
+h2 {
+  margin: 0;
+  color: #182127;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 6vw, 4.8rem);
+  line-height: 0.95;
+  max-width: 10ch;
+}
+
+.login-page__intro > p:last-of-type {
+  max-width: 54ch;
+  color: #4d6069;
+}
+
+.login-page__notes {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.login-page__notes div {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(191, 91, 44, 0.08);
+}
+
+.login-form {
+  display: grid;
+  gap: 14px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+}
+
+input,
+select,
+button {
+  border-radius: 14px;
+  border: 1px solid rgba(28, 36, 41, 0.14);
+  padding: 12px 14px;
+  font-size: 0.98rem;
+}
+
+button {
+  border: 0;
+  color: #fff;
+  background: #1f3b4d;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-form__error {
+  margin: 0;
+  color: #9f2d2d;
+}
+
+@media (max-width: 860px) {
+  .login-page {
+    grid-template-columns: 1fr;
+    width: min(100% - 24px, 1100px);
+    padding: 24px 0;
+  }
+}
