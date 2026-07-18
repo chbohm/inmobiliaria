@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import { logger } from "../common/logger";
 import { stringify } from '@liftcl/node-commons';
 
+import { AppConfig, AppConfigSchema } from '../app/config';
+
 let CONFIG_TS: string = undefined;
 
 export const setConfigTs = (configTs: string) => {
@@ -13,13 +15,13 @@ export const setConfigTs = (configTs: string) => {
 export class ConfigManager {
 
     // -------- Public methods --------
-    public static getConfig(): string {
+    public static getConfig(): AppConfig {
         return this.loadConfig();
     }
 
 
     // -------- Domain methods --------
-    private static loadConfig(): string {
+    private static loadConfig(): AppConfig {
         let configFile = process.env["CONFIG_FILE_PATH"];
         let config;
         if (configFile) {
@@ -34,7 +36,7 @@ export class ConfigManager {
                 throw 'Config not found';
             }
         }
-        return config;
+        return this.parseConfig(config);
     }
 
     private static loadFromFile(configFile: string): string {
@@ -46,6 +48,16 @@ export class ConfigManager {
         logger.info(`*********************************   LOADING CONFIG FROM ${config_ts} ***************************************`)
         const config = require(`../app/${config_ts}`).config;
         return stringify(config);
+    }
+
+    private static parseConfig(rawConfig: string): AppConfig {
+        const parsed = AppConfigSchema.safeParse(JSON.parse(rawConfig));
+
+        if (!parsed.success) {
+            throw new Error(`Invalid app config: ${stringify(parsed.error.flatten())}`);
+        }
+
+        return parsed.data;
     }
 
 }

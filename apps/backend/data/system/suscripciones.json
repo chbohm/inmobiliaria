@@ -1,0 +1,15 @@
+[
+  {
+    "idSuscripcion": "7f6397ce-b3c0-4af6-8faa-0a32b8d2edb9",
+    "idTenant": "9e4a1421-c02c-43d5-89a0-cd17df0b7c62",
+    "plan": "BASICO",
+    "estado": "TRIAL",
+    "fechaInicio": "2026-07-18T12:33:19.208Z",
+    "limites": {
+      "maxUsuarios": 5,
+      "maxInmuebles": 100
+    },
+    "createdAt": "2026-07-18T12:33:19.208Z",
+    "updatedAt": "2026-07-18T12:33:19.208Z"
+  }
+]

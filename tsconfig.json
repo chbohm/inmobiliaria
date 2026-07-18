@@ -1,28 +1,7 @@
 {
-  "ts-node": {
-    "files": true
-  },
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
-    "declaration": true,
-    "esModuleInterop": true,
-    "outDir": "./lib",
-    "strict": false,
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "typeRoots": [
-      "./types",
-      "node_modules/@types"
-    ]
-  },
-  "include": [
-    "src","scripts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/__tests__/*"
+  "files": [],
+  "references": [
+    { "path": "./packages/contracts" },
+    { "path": "./apps/backend" }
   ]
 }

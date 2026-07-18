@@ -1,0 +1,10 @@
+[
+  {
+    "idRol": "435db6a2-0785-4e5b-9393-ea6f430b8425",
+    "descripcion": "ADMIN",
+    "scope": "TENANT",
+    "permisos": [
+      "tenant.*"
+    ]
+  }
+]

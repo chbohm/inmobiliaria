@@ -1,0 +1,9 @@
+{
+  "name": "@inmobiliaria/frontend",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Angular app pending'",
+    "start": "echo 'Angular app pending'"
+  }
+}

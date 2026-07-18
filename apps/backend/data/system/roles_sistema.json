@@ -1,0 +1,10 @@
+[
+  {
+    "idRol": "33398edb-57be-4b66-9c24-a8e2916931b0",
+    "descripcion": "SUPER_ADMIN",
+    "scope": "SYSTEM",
+    "permisos": [
+      "system.*"
+    ]
+  }
+]

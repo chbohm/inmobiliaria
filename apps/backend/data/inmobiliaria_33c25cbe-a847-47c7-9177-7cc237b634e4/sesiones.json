@@ -1,0 +1,11 @@
+[
+  {
+    "id": "6c4e3daa-fba4-458a-8e86-10973a41ee41",
+    "scope": "TENANT",
+    "userId": "dd4a16fb-87a9-439c-a5d6-839056e7dd47",
+    "inmobiliariaId": "33c25cbe-a847-47c7-9177-7cc237b634e4",
+    "refreshTokenHash": "$2b$10$xKaDeAjJV1dXTupi0vo2zuZf2zM0QTf/SPzskYBSTL2Ho7elT63LC",
+    "createdAt": "2026-07-18T12:33:26.262Z",
+    "expiresAt": "2026-08-17T12:33:26.262Z"
+  }
+]

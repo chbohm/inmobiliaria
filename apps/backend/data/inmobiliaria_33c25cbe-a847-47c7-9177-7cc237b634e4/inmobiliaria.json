@@ -1,0 +1,21 @@
+{
+  "id": "33c25cbe-a847-47c7-9177-7cc237b634e4",
+  "nombre": "Inmobiliaria Inicial",
+  "razonSocial": "Inmobiliaria Inicial SRL",
+  "identificacionFiscal": "30-00000000-0",
+  "direccion": "Direccion pendiente",
+  "telefono": "0000-0000",
+  "email": "inmobiliaria@local.test",
+  "activo": true,
+  "configuracion": {
+    "moneda": "ARS",
+    "diasAvisoVencimientoContrato": 30,
+    "indiceActualizacionDefault": "IPC",
+    "colores": {
+      "primary": "#0f172a",
+      "secondary": "#e2e8f0"
+    }
+  },
+  "createdAt": "2026-07-18T12:33:19.208Z",
+  "updatedAt": "2026-07-18T12:33:19.208Z"
+}

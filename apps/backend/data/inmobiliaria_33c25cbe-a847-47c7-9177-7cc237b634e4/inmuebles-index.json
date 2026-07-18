@@ -1,0 +1,26 @@
+[
+  {
+    "idInmueble": "77e6262e-3e0c-47a0-9553-7a8d78585824",
+    "idInmobiliaria": "33c25cbe-a847-47c7-9177-7cc237b634e4",
+    "tipo": "CASA",
+    "estado": "DISPONIBLE",
+    "descripcionInterna": "Uso interno",
+    "descripcionPublica": "Casa amplia",
+    "direccion": "Calle 123",
+    "ciudad": "Cordoba",
+    "provincia": "Cordoba",
+    "superficies": {
+      "cubierta": 80,
+      "descubierta": 20,
+      "total": 100
+    },
+    "banios": 2,
+    "idDuenio": "11111111-1111-4111-8111-111111111111",
+    "contratos": [],
+    "pagos": [],
+    "comentarios": [],
+    "attachments": [],
+    "createdAt": "2026-07-18T12:33:36.372Z",
+    "updatedAt": "2026-07-18T12:33:36.372Z"
+  }
+]

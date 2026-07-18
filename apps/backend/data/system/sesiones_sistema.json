@@ -1,0 +1,10 @@
+[
+  {
+    "id": "5ea84b18-af27-4bd1-8e22-955b34c0c03a",
+    "scope": "SYSTEM",
+    "userId": "7e7684c5-ce3e-4010-a888-66d2a61b909b",
+    "refreshTokenHash": "$2b$10$SHvdtXOp0PG/ICZsGL4vduqu/2v2lKttVt6Q1iJMAK3JcqSbR3MD6",
+    "createdAt": "2026-07-18T12:33:24.835Z",
+    "expiresAt": "2026-08-17T12:33:24.835Z"
+  }
+]
