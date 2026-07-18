@@ -229,8 +229,7 @@ Esto incluye:
 - usuarios
 - personas
 - contactos
-- propiedades
-- unidades
+- inmuebles
 - contratos
 - pagos
 - gastos
@@ -261,9 +260,9 @@ Ejemplo:
 ```typescript
 const daoFactory = DAOFactory.forTenant(inmobiliariaId);
 
-const propertyDAO = daoFactory.getPropertyDAO();
-const contractDAO = daoFactory.getContractDAO();
-const personDAO = daoFactory.getPersonDAO();
+const inmuebleDAO = daoFactory.getInmuebleDAO();
+const contractoDAO = daoFactory.getContractoDAO();
+const personaDAO = daoFactory.getPersonaDAO();
 ```
 
 Los servicios nunca deben construir rutas manualmente.
@@ -285,203 +284,24 @@ data/
 
  ├── inmobiliaria_<id_inmobiliaria>/
     ├── usuarios.json
-    ├── contactos.json
     ├── personas.json
-    ├── propiedades.json
-    ├── unidades.json
-    ├── contratos.json
-    ├── pagos.json
-    ├── gastos.json
     ├── tareas.json
     ├── documentos.json
     ├── auditoria.json
     └── password_resets.json
+         └── inmuebles
+               └── inmueble_<id>
+                   ├── inmueble.json 
+                   ├── contratos.json
+                   ├── pagos.json
+                   ├── gastos.json
+
 ```
 
 Debe ser posible migrar posteriormente a una base de datos real reemplazando solamente DAOs.
 
 ---
 
-# Arquitectura Multi Tenant
-
-La aplicación debe soportar múltiples inmobiliarias.
-
-Modelo:
-
-```
-Inmobiliaria
-
- |
- +-- Usuarios
-
- |
- +-- Contactos
-
- |
- +-- Propiedades
-
- |
- +-- Contratos
-
- |
- +-- Pagos
-
- |
- +-- Documentos
-```
-
-Todas las entidades deben contener:
-
-```
-inmobiliariaId
-```
-
-Nunca permitir acceso cruzado entre inmobiliarias.
-
----
-
-# Entidad Inmobiliaria
-
-
-```
-RealEstateCompany
-```
-
-Campos:
-
-```json
-{
-"id":"",
-"nombre":"",
-"razonSocial":"",
-"identificacionFiscal":"",
-"direccion":"",
-"telefono":"",
-"email":"",
-"logo":"",
-"activo":true,
-"createdAt":"",
-"updatedAt":""
-}
-```
-
----
-
-# Configuración por inmobiliaria
-
-
-Cada inmobiliaria puede tener configuración propia:
-
-```
-RealEstateSettings
-```
-
-Campos:
-
-```
-inmobiliariaId
-
-monedaDefault
-
-diasAvisoVencimientoContrato
-
-indiceActualizacionDefault
-
-logo
-
-colores
-```
-
----
-
-# Usuarios
-
-
-Entidad:
-
-```
-User
-```
-
-Campos:
-
-```json
-{
-"id":"",
-"inmobiliariaId":"",
-"nombre":"",
-"apellido":"",
-"email":"",
-"passwordHash":"",
-"rol": "",
-"activo":true,
-"createdAt":"",
-"lastLogin":""
-}
-```
-
----
-
-# Roles
-
-Implementar:
-
-## ADMIN_INMOBILIARIA
-
-Puede:
-
-- administrar usuarios
-- administrar propiedades
-- administrar contratos
-- administrar configuración
-
-
-## OPERADOR
-
-Puede:
-
-- gestionar operaciones diarias
-
-
-## VISUALIZADOR
-
-Puede:
-
-- consultar información
-
-
----
-
-# Sistema de permisos
-
-Además de roles, implementar permisos.
-
-Entidad:
-
-```
-Permission
-```
-
-Ejemplos:
-
-```
-users.create
-users.delete
-properties.edit
-contracts.edit
-payments.view
-documents.download
-```
-
-Relación:
-
-```
-Role
-
- |
-
-+-- Permissions
-```
 
 ---
 
@@ -580,24 +400,79 @@ Reglas:
 
 ---
 
-# Modelo de Personas
 
 
-Separar identidad física de relación inmobiliaria.
+# InmobiliariaSchema
 
-
-## Persona
-
-
-```
-Person
-```
-
-Campos:
-
-```json
 {
 "id":"",
+"nombre":"",
+"razonSocial":"",
+"identificacionFiscal":"",
+"direccion":"",
+"telefono":"",
+"email":"",
+"logo":"",
+"activo":true,
+"configuracion":ConfiguracionInmobiliariaSchema
+"createdAt":"",
+"updatedAt":""
+}
+
+
+
+
+# ConfiguracionInmobiliariaSchema
+
+{
+moneda
+diasAvisoVencimientoContrato
+indiceActualizacionDefault
+logo
+colores
+}
+```
+
+---
+
+# UsuarioSchema
+
+
+{
+"id":string,
+"idInmobiliaria":"",
+"nombre":"",
+"apellido":"",
+"email":"",
+"passwordHash":"",
+"rol": "",
+"activo":true,
+"createdAt":"",
+"lastLogin":""
+}
+```
+
+---
+
+# RolSchema
+ implementar roles y permisos.
+{
+   idRol: string,
+   descripcion:string,
+   permisos: string[]
+}
+
+Ejemplo: 
+idRol:  ADMIN_INMOBILIARIA. Permisos: usuarios.create, usuarios.modify usuarios.delete,  etc
+
+idRol:  OPERADOR. Permisos: inmueble.create, inmueble.modify, etc
+
+
+
+## PersonaSchema
+
+{
+"idPersona":"",
 "nombre":"",
 "apellido":"",
 "documento":"",
@@ -606,23 +481,14 @@ Campos:
 ```
 
 
----
 
-## Contacto dentro de inmobiliaria
+## ContactSchema
 
 
-```
-Contact
-```
+{ idContacto:string
 
-Campos:
+   idPersona:string
 
-```
-id
-
-personaId
-
-inmobiliariaId
 
 email
 
@@ -630,13 +496,8 @@ telefonos
 
 direccion
 
-observaciones
-```
-
-
-Las personas no se comparten entre inmobiliarias. 
-
----
+comentarios: ComentarioSchema[]
+}
 
 # InmuebleSchema
 
@@ -655,7 +516,7 @@ Las personas no se comparten entre inmobiliarias.
     superficieDescubierta:string,
     superficieTotal:string,
     detalles: CasaSchema | DepartamentoSchema | GalponSchema,
-    duenio: id_contacto
+    duenio: idContacto
     contratos: Lista de ContratoAlquilerSchema,
     comentarios: { fecha:Date, comentario:string, idUsuario: string},
  }  
