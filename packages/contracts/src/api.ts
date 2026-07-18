@@ -20,8 +20,7 @@ export const ApiErrorSchema = z.object({
 
 export const LoginRequestSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(1),
-  inmobiliariaId: UUIDSchema.optional()
+  password: z.string().min(1)
 });
 
 export const RefreshRequestSchema = z.object({

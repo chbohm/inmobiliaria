@@ -1,11 +1,11 @@
 {
-  "idInmueble": "77e6262e-3e0c-47a0-9553-7a8d78585824",
+  "idInmueble": "11e6262e-3e0c-47a0-9553-7a8d78585821",
   "idInmobiliaria": "33c25cbe-a847-47c7-9177-7cc237b634e4",
   "tipo": "CASA",
   "estado": "DISPONIBLE",
   "descripcionInterna": "Uso interno",
   "descripcionPublica": "Casa amplia",
-  "direccion": "Alem 670 B",
+  "direccion": "Grella 475",
   "ciudad": "Parana",
   "provincia": "Entre Ríos",
   "superficies": {

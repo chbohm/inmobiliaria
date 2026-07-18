@@ -10,7 +10,11 @@ import { JwtService } from '../security/jwt-service';
 interface LoginInput {
     email: string;
     password: string;
-    inmobiliariaId?: string;
+}
+
+interface TenantLoginCandidate {
+    inmobiliariaId: string;
+    user: Usuario;
 }
 
 interface AuthResult {
@@ -37,11 +41,12 @@ export class AuthService {
     }
 
     public async login(input: LoginInput): Promise<AuthResult> {
-        if (input.inmobiliariaId) {
-            return this.loginTenant(input);
+        const systemUser = await this.systemDaoFactory.getSuperUsuariosDao().findBy('email', input.email) as SuperUsuario | undefined;
+        if (systemUser?.activo) {
+            return this.loginSystem(input, systemUser);
         }
 
-        return this.loginSystem(input);
+        return this.loginTenantByEmail(input);
     }
 
     public async refresh(refreshToken: string): Promise<AuthResult> {
@@ -152,11 +157,7 @@ export class AuthService {
         };
     }
 
-    private async loginSystem(input: LoginInput): Promise<AuthResult> {
-        const user = await this.systemDaoFactory.getSuperUsuariosDao().findBy('email', input.email);
-        if (!user || !user.activo) {
-            throw new Error('Invalid credentials');
-        }
+    private async loginSystem(input: LoginInput, user: SuperUsuario): Promise<AuthResult> {
 
         const validPassword = await compare(input.password, user.passwordHash);
         if (!validPassword) {
@@ -176,12 +177,14 @@ export class AuthService {
         });
     }
 
-    private async loginTenant(input: LoginInput): Promise<AuthResult> {
-        const tenantFactory = this.tenantFactoryBuilder(input.inmobiliariaId!);
-        const user = await tenantFactory.getUsuariosDao().findBy('email', input.email);
-        if (!user || !user.activo) {
+    private async loginTenantByEmail(input: LoginInput): Promise<AuthResult> {
+        const candidate = await this.findTenantUserByEmail(input.email);
+        if (!candidate || !candidate.user.activo) {
             throw new Error('Invalid credentials');
         }
+
+        const { inmobiliariaId, user } = candidate;
+        const tenantFactory = this.tenantFactoryBuilder(inmobiliariaId);
 
         const validPassword = await compare(input.password, user.passwordHash);
         if (!validPassword) {
@@ -198,8 +201,31 @@ export class AuthService {
             email: user.email,
             role: role.descripcion,
             scope: 'TENANT',
-            inmobiliariaId: input.inmobiliariaId
+            inmobiliariaId
         });
+    }
+
+    private async findTenantUserByEmail(email: string): Promise<TenantLoginCandidate | undefined> {
+        const tenants = await this.systemDaoFactory.getTenantsDao().findAll();
+        const matches: TenantLoginCandidate[] = [];
+
+        for (const tenant of tenants) {
+            const user = await this.tenantFactoryBuilder(tenant.idInmobiliaria).getUsuariosDao().findBy('email', email) as Usuario | undefined;
+            if (!user) {
+                continue;
+            }
+
+            matches.push({
+                inmobiliariaId: tenant.idInmobiliaria,
+                user
+            });
+        }
+
+        if (matches.length > 1) {
+            throw new Error('Multiple tenant users found for this email. Use a unique email per inmobiliaria.');
+        }
+
+        return matches[0];
     }
 
     private async createSessionResult(user: { id: string; email: string; role: string; scope: 'SYSTEM' | 'TENANT'; inmobiliariaId?: string; }): Promise<AuthResult> {

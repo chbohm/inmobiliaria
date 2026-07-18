@@ -4,8 +4,8 @@
     "idInmobiliaria": "33c25cbe-a847-47c7-9177-7cc237b634e4",
     "nombre": "Tenant",
     "apellido": "Admin",
-    "email": "tenant-admin@local.test",
-    "passwordHash": "$2b$10$4v90C3Qnp/hwW8zsybeue..STJr8E2rTwMD43IghXso4Q27kj52/6",
+    "email": "rocio@willich.com",
+    "passwordHash": "$2b$10$PtMEivlBXAB9AcuS8O/l0uoA.0InQLoAyBY9vdLLCdacrF7z18jRK",
     "idRol": "435db6a2-0785-4e5b-9393-ea6f430b8425",
     "activo": true,
     "createdAt": "2026-07-18T12:33:19.208Z"

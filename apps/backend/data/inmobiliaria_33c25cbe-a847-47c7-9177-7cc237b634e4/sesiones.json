@@ -7,5 +7,23 @@
     "refreshTokenHash": "$2b$10$xKaDeAjJV1dXTupi0vo2zuZf2zM0QTf/SPzskYBSTL2Ho7elT63LC",
     "createdAt": "2026-07-18T12:33:26.262Z",
     "expiresAt": "2026-08-17T12:33:26.262Z"
+  },
+  {
+    "id": "9d69f6c6-0a1b-49e6-9be1-a15e3debffdb",
+    "scope": "TENANT",
+    "userId": "dd4a16fb-87a9-439c-a5d6-839056e7dd47",
+    "inmobiliariaId": "33c25cbe-a847-47c7-9177-7cc237b634e4",
+    "refreshTokenHash": "$2b$10$/IoEkV1tpVVD4SZObUc/lu1RC4K.TPUzxh9gIUw2fzTC8ctM0RU3y",
+    "createdAt": "2026-07-18T16:51:27.438Z",
+    "expiresAt": "2026-08-17T16:51:27.438Z"
+  },
+  {
+    "id": "567c6b71-9955-4b7f-b1f7-570f2a100959",
+    "scope": "TENANT",
+    "userId": "dd4a16fb-87a9-439c-a5d6-839056e7dd47",
+    "inmobiliariaId": "33c25cbe-a847-47c7-9177-7cc237b634e4",
+    "refreshTokenHash": "$2b$10$ZUpVWFesJTmLiLv4z5c77.4pIdgZEyrXQ.L/DZ46waOik/lHKcHUm",
+    "createdAt": "2026-07-18T16:58:35.758Z",
+    "expiresAt": "2026-08-17T16:58:35.758Z"
   }
 ]

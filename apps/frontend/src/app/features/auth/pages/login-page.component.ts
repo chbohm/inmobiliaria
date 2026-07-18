@@ -24,15 +24,9 @@ export class LoginPageComponent {
   readonly errorMessage = signal<string | null>(null);
 
   readonly form = this.formBuilder.nonNullable.group({
-    scope: this.formBuilder.nonNullable.control<'SYSTEM' | 'TENANT'>('SYSTEM'),
     email: this.formBuilder.nonNullable.control('admin@local.test', [Validators.required, Validators.email]),
-    password: this.formBuilder.nonNullable.control('changeit123', [Validators.required, Validators.minLength(8)]),
-    inmobiliariaId: this.formBuilder.nonNullable.control('')
+    password: this.formBuilder.nonNullable.control('changeit123', [Validators.required, Validators.minLength(8)])
   });
-
-  get needsTenantId(): boolean {
-    return this.form.controls.scope.value === 'TENANT';
-  }
 
   public submit(): void {
     this.errorMessage.set(null);
@@ -45,8 +39,7 @@ export class LoginPageComponent {
     const raw = this.form.getRawValue();
     const payload: LoginRequest = {
       email: raw.email,
-      password: raw.password,
-      inmobiliariaId: raw.scope === 'TENANT' && raw.inmobiliariaId ? raw.inmobiliariaId : undefined
+      password: raw.password
     };
 
     const parsed = LoginRequestSchema.safeParse(payload);

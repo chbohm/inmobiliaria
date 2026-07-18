@@ -12,8 +12,7 @@ export function createAuthRouter(services: AppServices): Router {
             const payload: LoginRequest = LoginRequestSchema.parse(req.body);
             const result = await services.authService.login({
                 email: payload.email,
-                password: payload.password,
-                inmobiliariaId: payload.inmobiliariaId
+                password: payload.password
             });
             res.json({ success: true, ...result });
         } catch (error) {

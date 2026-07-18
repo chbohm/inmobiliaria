@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.json",
     "dev": "CONFIG_TS=config.qa.ts node -r ts-node/register ./src/app/main.ts",
+    "hash:password": "node -r ts-node/register ./src/security/hash-password.cli.ts",
     "start": "node ./dist/app/main.js",
     "debug": "CONFIG_TS=config.local.ts node --inspect-brk=9229 -r ts-node/register ./src/app/main.ts",
     "debug-qa": "CONFIG_TS=config.qa.ts node --inspect=9229 -r ts-node/register ./src/app/main.ts"

@@ -13,7 +13,7 @@
       </div>
       <div>
         <strong>Tenant</strong>
-        <span>Requiere inmobiliariaId ademas de email y password.</span>
+        <span>El backend detecta automaticamente si el email pertenece a una inmobiliaria.</span>
       </div>
     </div>
   </section>
@@ -26,14 +26,6 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
       <label>
-        <span>Scope</span>
-        <select formControlName="scope">
-          <option value="SYSTEM">SYSTEM</option>
-          <option value="TENANT">TENANT</option>
-        </select>
-      </label>
-
-      <label>
         <span>Email</span>
         <input type="email" formControlName="email" placeholder="admin@local.test" />
       </label>
@@ -41,11 +33,6 @@
       <label>
         <span>Password</span>
         <input type="password" formControlName="password" placeholder="changeit123" />
-      </label>
-
-      <label *ngIf="needsTenantId">
-        <span>Inmobiliaria ID</span>
-        <input type="text" formControlName="inmobiliariaId" placeholder="UUID de la inmobiliaria" />
       </label>
 
       <p class="login-form__error" *ngIf="errorMessage()">{{ errorMessage() }}</p>

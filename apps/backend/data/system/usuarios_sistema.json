@@ -4,7 +4,7 @@
     "nombre": "System",
     "apellido": "Admin",
     "email": "admin@local.test",
-    "passwordHash": "$2b$10$FeTMhB3HlWlII8cMfTKIq.4oYwuywOuD6BGmqR0skPQSJG.Xo7z2e",
+    "passwordHash": "$2b$10$PtMEivlBXAB9AcuS8O/l0uoA.0InQLoAyBY9vdLLCdacrF7z18jRK",
     "idRol": "33398edb-57be-4b66-9c24-a8e2916931b0",
     "activo": true,
     "createdAt": "2026-07-18T12:33:19.208Z"

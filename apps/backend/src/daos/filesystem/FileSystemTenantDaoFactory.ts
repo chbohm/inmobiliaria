@@ -20,14 +20,18 @@ import { FileSystemCollectionDao } from './FileSystemCollectionDao';
 import { FileSystemJsonRepository } from './FileSystemJsonRepository';
 
 export class FileSystemTenantDaoFactory {
+    private inmoFolder: string;
     public constructor(
         private readonly dataPaths: DataPaths,
         private readonly inmobiliariaId: string
-    ) {}
+
+    ) {
+        this.inmoFolder = path.join(this.dataPaths.tenantRoot(this.inmobiliariaId));
+    }
 
     public getInmobiliariaRepository() {
         return new FileSystemJsonRepository(
-            path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'inmobiliaria.json'),
+            path.join(this.inmoFolder, 'inmobiliaria.json'),
             InmobiliariaSchema,
             {
                 id: this.inmobiliariaId,
@@ -54,39 +58,39 @@ export class FileSystemTenantDaoFactory {
     }
 
     public getRolesDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'roles.json'), RolSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'roles.json'), RolSchema);
     }
 
     public getUsuariosDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'usuarios.json'), UsuarioSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'usuarios.json'), UsuarioSchema);
     }
 
     public getSesionesDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'sesiones.json'), SessionSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'sesiones.json'), SessionSchema);
     }
 
     public getPersonasDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'personas.json'), PersonaSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'personas.json'), PersonaSchema);
     }
 
     public getContactosDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'contactos.json'), ContactoSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'contactos.json'), ContactoSchema);
     }
 
     public getTareasDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'tareas.json'), TareaSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'tareas.json'), TareaSchema);
     }
 
     public getAuditoriaDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'auditoria.json'), AuditoriaSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'auditoria.json'), AuditoriaSchema);
     }
 
     public getPasswordResetsDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'password_resets.json'), PasswordResetSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'password_resets.json'), PasswordResetSchema);
     }
 
     public getInmueblesDao() {
-        return new FileSystemCollectionDao(path.join(this.dataPaths.tenantRoot(this.inmobiliariaId), 'inmuebles-index.json'), InmuebleSchema);
+        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'inmuebles-index.json'), InmuebleSchema);
     }
 
     public getInmuebleRepository(inmuebleId: string) {
