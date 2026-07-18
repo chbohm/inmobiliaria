@@ -1,0 +1,8 @@
+{
+  "component": "five9-api-connector",
+  "image": "cicd.liftcl:5000/five9-api-connector:20260625T192231000-main",
+  "commit": "4b94f23ddfd8b74ba6887c912a805bbc4a6f3878",
+  "commit_timestamp": "2026-06-25 19:22:31 -0300",
+  "branch": "main",
+  "version": "20260625T192231000-main"
+}

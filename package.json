@@ -1,0 +1,60 @@
+{
+  "name": "five9-api-connector",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "createCommitInfo": "node ./build/commitInfo.js > commit-info.json",
+    "build": "rm -Rf lib && tsc",
+    "debug": "CONFIG_TS=config.local.ts node --inspect-brk=9229 -r ts-node/register ./src/app/main.ts",
+    "deps": "cd scripts && docker compose up -d",
+    "debug-qa": "CONFIG_TS=config.qa.ts node --inspect=9229 -r ts-node/register ./src/app/main.ts",
+    "docker:build": "bash scripts/docker-build.sh",
+    "swagger": "node scripts/generate-swagger.js"
+  },
+  "dependencies": {
+    "@liftcl/aws-secret-manager": "^0.0.8",
+    "@liftcl/health-check": "^0.0.6",
+    "@liftcl/node-commons": "^0.1.9",
+    "@liftcl/node-commons-ext": "^0.1.6",
+    "@liftcl/node-logs": "^0.0.8",
+    "@liftcl/node-server-commons": "^0.3.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "axios": "^1.13.4",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.6",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.3",
+    "luxon": "^3.7.2",
+    "short-uuid": "^6.0.3",
+    "swagger-ui-express": "^5.0.1",
+    "timestring": "^7.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3",
+    "uuid": "^13.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^18.19.68",
+    "@types/swagger-ui-express": "^4.1.8",
+    "@types/uuid": "^10.0.0",
+    "jest": "^29.7.0",
+    "swagger-autogen": "^2.23.7",
+    "ts-jest": "^29.2.5",
+    "typescript-tslint-plugin": "^1.0.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)$",
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "json"
+    ],
+    "collectCoverageFrom": [
+      "!**",
+      "./src/**/*.{ts,js}"
+    ]
+  }
+}
