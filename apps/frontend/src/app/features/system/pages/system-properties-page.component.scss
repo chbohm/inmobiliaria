@@ -5,18 +5,10 @@
   font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
 }
 
-.properties-page__header {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: flex-start;
-}
-
 .properties-page__header,
 .filters,
 .master,
-.detail,
-.empty {
+.detail {
   border: 1px solid #2f3f4d;
   border-radius: 14px;
   background: rgba(20, 32, 44, 0.7);
@@ -30,6 +22,18 @@
   color: #8aa1b5;
   font-size: 0.7rem;
   font-weight: 700;
+}
+
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+.properties-page__header p:last-child {
+  margin-top: 8px;
+  color: #aebdcb;
 }
 
 .filters {
@@ -130,10 +134,6 @@ tr.is-selected {
   color: #8dc7a0;
 }
 
-.state--error {
-  color: #ff9b9b;
-}
-
 .detail__actions {
   display: flex;
   justify-content: flex-end;
@@ -152,10 +152,6 @@ tr.is-selected {
 }
 
 @media (max-width: 780px) {
-  .properties-page__header {
-    flex-direction: column;
-  }
-
   .filters,
   .detail__grid,
   .contracts__add {

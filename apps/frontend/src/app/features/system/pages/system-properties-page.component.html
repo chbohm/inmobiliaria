@@ -2,17 +2,12 @@
   <header class="properties-page__header">
     <div>
       <p class="eyebrow">Inmuebles</p>
-      <h2>Master-detail operativo</h2>
-      <p>Tabla de inmuebles con filtros, detalle editable y gestion de contratos relacionados.</p>
+      <h2>Master-detail de referencia para sistema</h2>
+      <p>En scope sistema se muestra la misma experiencia de navegacion y edicion para validar UX global.</p>
     </div>
-
-    <button type="button" (click)="reload()">Recargar</button>
   </header>
 
-  <p class="state" *ngIf="isLoading()">Cargando inmuebles...</p>
-  <p class="state state--error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
-
-  <section class="filters" *ngIf="!isLoading() && !errorMessage() && items().length > 0">
+  <section class="filters">
     <label>
       Buscar
       <input type="search" [(ngModel)]="searchText" placeholder="Direccion, ciudad o tipo" />
@@ -29,11 +24,7 @@
     </label>
   </section>
 
-  <div class="empty" *ngIf="!isLoading() && !errorMessage() && items().length === 0">
-    No hay inmuebles cargados para esta inmobiliaria.
-  </div>
-
-  <section class="master-detail" *ngIf="!isLoading() && !errorMessage() && items().length > 0">
+  <section class="master-detail">
     <article class="master">
       <table>
         <thead>

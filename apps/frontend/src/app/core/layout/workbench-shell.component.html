@@ -1,0 +1,50 @@
+<section class="workbench">
+  <aside class="sidebar">
+    <header class="sidebar__brand">
+      <p class="eyebrow">{{ contextLabel() }}</p>
+      <h1>{{ title() }}</h1>
+    </header>
+
+    <nav class="sidebar__section sidebar__section--primary" aria-label="Navegacion principal">
+      <a
+        *ngFor="let item of primaryNav()"
+        [routerLink]="item.route"
+        routerLinkActive="is-active"
+      >
+        <span class="icon">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <nav class="sidebar__section sidebar__section--secondary" aria-label="Navegacion secundaria">
+      <a
+        *ngFor="let item of secondaryNav()"
+        [routerLink]="item.route"
+        routerLinkActive="is-active"
+      >
+        <span class="icon">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <button type="button" class="logout" (click)="requestLogout()">Salir</button>
+  </aside>
+
+  <section class="canvas">
+    <header class="canvas__header">
+      <div>
+        <p class="eyebrow">Workspace</p>
+        <p class="subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+      </div>
+
+      <div class="identity">
+        <strong>{{ userPrimary() }}</strong>
+        <span *ngIf="userSecondary()">{{ userSecondary() }}</span>
+      </div>
+    </header>
+
+    <main class="canvas__content">
+      <ng-content />
+    </main>
+  </section>
+</section>

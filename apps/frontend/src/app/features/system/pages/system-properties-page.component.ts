@@ -1,26 +1,71 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import type { Inmueble } from '@inmobiliaria/contracts';
 
-import { PropertiesApiService } from '../data/properties-api.service';
+const NOW = new Date().toISOString();
+
+const SYSTEM_SAMPLE_ITEMS: Inmueble[] = [
+  {
+    idInmueble: '11e6262e-3e0c-47a0-9553-7a8d78585821',
+    idInmobiliaria: '33c25cbe-a847-47c7-9177-7cc237b634e4',
+    tipo: 'CASA',
+    estado: 'DISPONIBLE',
+    descripcionInterna: 'Inmueble de referencia para tablero sistema.',
+    descripcionPublica: 'Casa de 3 ambientes con patio.',
+    direccion: 'Av. Siempre Viva 123',
+    ciudad: 'Rosario',
+    provincia: 'Santa Fe',
+    superficies: {
+      cubierta: 110,
+      descubierta: 40,
+      total: 150
+    },
+    banios: 2,
+    idDuenio: '11111111-1111-4111-8111-111111111111',
+    contratos: ['55555555-5555-4555-8555-555555555555'],
+    pagos: [],
+    comentarios: [],
+    attachments: [],
+    createdAt: NOW,
+    updatedAt: NOW
+  },
+  {
+    idInmueble: '77e6262e-3e0c-47a0-9553-7a8d78585824',
+    idInmobiliaria: '33c25cbe-a847-47c7-9177-7cc237b634e4',
+    tipo: 'DEPARTAMENTO',
+    estado: 'ALQUILADO',
+    descripcionInterna: 'Unidad con contrato vigente.',
+    descripcionPublica: 'Departamento centrico de 2 ambientes.',
+    direccion: 'San Martin 540',
+    ciudad: 'Cordoba',
+    provincia: 'Cordoba',
+    superficies: {
+      cubierta: 58,
+      descubierta: 6,
+      total: 64
+    },
+    banios: 1,
+    idDuenio: '22222222-2222-4222-8222-222222222222',
+    contratos: ['66666666-6666-4666-8666-666666666666'],
+    pagos: [],
+    comentarios: [],
+    attachments: [],
+    createdAt: NOW,
+    updatedAt: NOW
+  }
+];
 
 @Component({
-  selector: 'app-tenant-properties-page',
+  selector: 'app-system-properties-page',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './tenant-properties-page.component.html',
-  styleUrl: './tenant-properties-page.component.scss'
+  templateUrl: './system-properties-page.component.html',
+  styleUrl: './system-properties-page.component.scss'
 })
-export class TenantPropertiesPageComponent {
-  private readonly propertiesApi = inject(PropertiesApiService);
-  private readonly destroyRef = inject(DestroyRef);
-
-  readonly isLoading = signal(true);
-  readonly errorMessage = signal<string | null>(null);
-  readonly items = signal<Inmueble[]>([]);
+export class SystemPropertiesPageComponent {
+  readonly items = signal<Inmueble[]>(SYSTEM_SAMPLE_ITEMS);
   readonly saveMessage = signal<string | null>(null);
 
   searchText = '';
@@ -29,22 +74,14 @@ export class TenantPropertiesPageComponent {
   newContractId = '';
   draft: Inmueble | null = null;
 
-  public constructor() {
-    this.load();
-  }
-
-  public reload(): void {
-    this.load();
-  }
-
   public get filteredItems(): Inmueble[] {
     const query = this.searchText.trim().toLowerCase();
 
     return this.items().filter((item) => {
-      const matchesStatus = this.statusFilter === 'ALL' || item.estado === this.statusFilter;
-      const searchTarget = `${item.direccion} ${item.ciudad} ${item.provincia} ${item.tipo}`.toLowerCase();
-      const matchesSearch = query.length === 0 || searchTarget.includes(query);
-      return matchesStatus && matchesSearch;
+      const passesStatus = this.statusFilter === 'ALL' || item.estado === this.statusFilter;
+      const text = `${item.direccion} ${item.ciudad} ${item.provincia} ${item.tipo}`.toLowerCase();
+      const passesSearch = query.length === 0 || text.includes(query);
+      return passesStatus && passesSearch;
     });
   }
 
@@ -77,7 +114,7 @@ export class TenantPropertiesPageComponent {
     const updated = { ...this.draft, updatedAt: new Date().toISOString() };
     this.items.update((items) => items.map((item) => (item.idInmueble === updated.idInmueble ? updated : item)));
     this.draft = this.clone(updated);
-    this.saveMessage.set('Cambios guardados en la vista actual.');
+    this.saveMessage.set('Detalle actualizado en modo sistema.');
   }
 
   public addContract(): void {
@@ -101,32 +138,6 @@ export class TenantPropertiesPageComponent {
     }
 
     this.newContractId = '';
-  }
-
-  private load(): void {
-    this.isLoading.set(true);
-    this.errorMessage.set(null);
-    this.saveMessage.set(null);
-
-    this.propertiesApi.list().pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
-      next: (response) => {
-        const loadedItems = response.items ?? [];
-        this.items.set(loadedItems);
-
-        if (loadedItems.length > 0) {
-          this.selectItem(loadedItems[0]);
-        } else {
-          this.selectedId = null;
-          this.draft = null;
-        }
-
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('No fue posible cargar inmuebles.');
-        this.isLoading.set(false);
-      }
-    });
   }
 
   private clone(item: Inmueble): Inmueble {

@@ -1,20 +1,12 @@
-<section class="shell">
-  <header class="shell__header">
-    <div>
-      <p class="eyebrow">Tenant</p>
-      <h1>Operacion inmobiliaria</h1>
-    </div>
-
-    <div class="shell__meta">
-      <span>{{ user()?.email }}</span>
-      <span>{{ inmobiliariaId() }}</span>
-      <a routerLink="/tenant/dashboard">Dashboard</a>
-      <a routerLink="/tenant/properties">Inmuebles</a>
-      <button type="button" (click)="logout()">Salir</button>
-    </div>
-  </header>
-
-  <main class="shell__content">
+<app-workbench-shell
+  [contextLabel]="'Tenant'"
+  [title]="'Operacion inmobiliaria'"
+  [subtitle]="'Gestion de inmuebles, contratos y pagos por inmobiliaria.'"
+  [userPrimary]="userLabel()"
+  [userSecondary]="inmobiliariaId()"
+  [primaryNav]="primaryNav"
+  [secondaryNav]="secondaryNav"
+  (logoutRequested)="logout()"
+>
     <router-outlet />
-  </main>
-</section>
+  </app-workbench-shell>
