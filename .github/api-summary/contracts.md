@@ -1,395 +1,645 @@
-# Contracts API
+# API Contracts
 
 ## Purpose
 
-Manage rental contracts associated with properties.
+Defines REST API endpoints for managing rental contracts inside a tenant.
 
-Contracts represent the legal rental agreement between:
+Contracts represent legal rental agreements between:
 
 - Property owner.
-- Tenant/renter.
+- Tenant.
 - Guarantors.
+- Real estate agency.
 
-A contract belongs to one property and one tenant organization.
+A contract belongs to:
 
----
-
-# Authorization
-
-All endpoints require:
-
-```
-scope = TENANT
-```
-
-Allowed roles:
-
-- Tenant administrator.
-- Property managers.
-- Users with contract management permissions.
+- One property.
+- One tenant.
+- One owner.
 
 ---
 
-# Contract Management
+# Security
 
-## GET /contracts
+## Authentication
 
-Returns rental contracts belonging to the authenticated tenant.
+All endpoints require authentication.
 
-Supports:
+Required header:
 
-- Pagination.
-- Search.
-- Filtering.
-- Sorting.
-
-Possible filters:
-
-- Property.
-- Tenant/renter.
-- Owner.
-- Status.
-- Expiration date.
-- Contract period.
-
-**Allowed scopes**
-
-- TENANT
-
-**Notes**
-
-- Results must only include contracts from current tenant.
-- Deleted contracts excluded by default.
-- Must support expiration monitoring.
-
----
-
-## GET /contracts/:id
-
-Returns complete contract information.
-
-Includes:
-
-- Property.
-- Owner.
-- Renter.
-- Guarantors.
-- Current amount.
-- Update rules.
-- Payment history.
-- Documents.
-- Comments.
-
-**Allowed scopes**
-
-- TENANT
-
-**Notes**
-
-- Contract must belong to authenticated tenant.
-- Related entities must be validated.
-- Sensitive information requires permissions.
-
----
-
-## POST /contracts
-
-Creates a new rental contract.
-
-Creates:
-
-- Contract record.
-- Relationship with property.
-- Rental period.
-- Initial payment configuration.
-
-**Allowed scopes**
-
-- TENANT
-
-**Required validations**
-
-- Property exists.
-- Property belongs to tenant.
-- Owner exists.
-- Renter exists.
-- Dates are valid.
-- Amount is positive.
-
-**Business rules**
-
-- A property should not have multiple active contracts.
-- Contract creation must be audited.
-
----
-
-## PUT /contracts/:id
-
-Updates contract information.
-
-Possible updates:
-
-- End date.
-- Rental amount.
-- Update index.
-- Update period.
-- Guarantors.
-- Comments.
-
-**Allowed scopes**
-
-- TENANT
-
-**Notes**
-
-- Historical amounts must not be overwritten.
-- Amount changes create history entries.
-- Important modifications must generate audit records.
-
----
-
-## DELETE /contracts/:id
-
-Soft deletes a contract.
-
-The contract remains available for:
-
-- Audit.
-- Historical payments.
-- Reports.
-
-**Allowed scopes**
-
-- TENANT
-
-**Notes**
-
-- Active contracts require validation.
-- Hard deletion forbidden.
-
----
-
-# Contract Lifecycle
-
-Possible states:
-
-```
-ACTIVE
-EXPIRED
-CANCELLED
-FINISHED
-```
-
-State transitions:
-
-```
-ACTIVE
- |
- +--> FINISHED
- |
- +--> CANCELLED
-
-ACTIVE
- |
- +--> EXPIRED
+```http
+Authorization: Bearer <access_token>
 ```
 
 ---
 
-# Contract Data
+## Scope
 
-Main fields:
+Required scope:
 
-```
-idContrato
-idInmueble
-idInquilino
-idDuenio
-
-fechaInicioContrato
-fechaFinContrato
-
-montoActual
-
-fechaProximaActualizacionMonto
-
-indiceActualizacion
-
-periodoActualizacion
-
-historialMontos
-
-garantes
-
-comentarios
-
-createdAt
-updatedAt
-deletedAt
+```text
+TENANT
 ```
 
 ---
 
-# Rental Amount Updates
+## Tenant Isolation
 
-Amount changes must preserve history.
+All operations must use:
 
-Example:
-
-Before:
-
-```
-amount = 500000
-```
-
-After:
-
-```
-amount = 600000
-```
-
-Store:
-
-```
-HistorialMonto
-
-date:
-2026-01-01
-
-old amount:
-500000
-
-new amount:
-600000
-
-comment:
-"Annual adjustment"
-```
-
-Never overwrite previous values.
-
----
-
-# Guarantors
-
-Contracts may contain guarantors.
-
-Guarantor information:
-
-```
-idContacto
-comentario
-porcentaje
-fechaInicio
-fechaFin
+```typescript
+currentUser.inmobiliariaId
 ```
 
 Rules:
 
-- Guarantor must belong to same tenant.
+- Users can only access contracts from their own inmobiliaria.
+- Contract IDs are not globally accessible.
+- Property ownership validation is mandatory.
+- Tenant and owner references must belong to current tenant.
+
+Forbidden:
+
+```text
+Access contract by ID without tenant validation.
+```
+
+Allowed:
+
+```text
+Find contract by ID + inmobiliariaId.
+```
+
+---
+
+# Domain Model
+
+Relationship:
+
+```text
+Inmobiliaria
+    |
+    |
+    +---- Property
+              |
+              |
+              +---- Contract
+                       |
+                       +---- Tenant
+                       |
+                       +---- Owner
+                       |
+                       +---- Guarantors
+                       |
+                       +---- Payments
+```
+
+---
+
+# Base Path
+
+```http
+/api/v1/contracts
+```
+
+---
+
+# GET /api/v1/contracts
+
+## Purpose
+
+Returns rental contracts belonging to current tenant.
+
+Used for:
+
+- Contract management.
+- Searching active rentals.
+- Dashboard information.
+- Expiration monitoring.
+
+---
+
+## Authentication
+
+Required.
+
+Header:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+## Allowed Scope
+
+```text
+TENANT
+```
+
+---
+
+## Allowed Roles
+
+```text
+ADMIN
+MANAGER
+USER
+```
+
+---
+
+## Query Parameters
+
+Supported filters:
+
+```text
+?page=1
+&limit=50
+&propertyId=uuid
+&tenantId=uuid
+&ownerId=uuid
+&status=ACTIVE
+&expirationBefore=2026-12-31
+```
+
+Example:
+
+```http
+GET /api/v1/contracts?status=ACTIVE
+```
+
+---
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "items": [
+      {
+        "idContrato": "uuid",
+        "idInmueble": "uuid",
+        "idInquilino": "uuid",
+        "fechaInicioContrato": "2026-01-01T00:00:00Z",
+        "fechaFinContrato": "2027-01-01T00:00:00Z",
+        "montoActual": 500000
+      }
+    ]
+  }
+}
+```
+
+---
+
+# GET /api/v1/contracts/:id
+
+## Purpose
+
+Returns complete contract detail.
+
+Includes:
+
+- Contract information.
+- Property.
+- Tenant.
+- Owner.
+- Guarantors.
+- Payment summary.
+- Amount history.
+
+---
+
+## Authentication
+
+Required.
+
+Header:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+## Allowed Scope
+
+```text
+TENANT
+```
+
+---
+
+## Allowed Roles
+
+```text
+ADMIN
+MANAGER
+USER
+```
+
+---
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "idContrato": "uuid",
+    "idInmueble": "uuid",
+    "idInquilino": "uuid",
+    "idDuenio": "uuid",
+    "fechaInicioContrato": "2026-01-01T00:00:00Z",
+    "fechaFinContrato": "2027-01-01T00:00:00Z",
+    "montoActual": 500000,
+    "indiceActualizacion": "IPC",
+    "periodoActualizacion": "MENSUAL",
+    "garantes": [],
+    "historialMontos": []
+  }
+}
+```
+
+---
+
+# POST /api/v1/contracts
+
+## Purpose
+
+Creates a new rental contract.
+
+---
+
+## Authentication
+
+Required.
+
+Header:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+## Allowed Scope
+
+```text
+TENANT
+```
+
+---
+
+## Allowed Roles
+
+```text
+ADMIN
+MANAGER
+```
+
+---
+
+## Business Rules
+
+Before creating:
+
+- Property must exist.
+- Property must belong to current tenant.
+- Tenant must exist.
+- Owner must exist.
+- Dates must be valid.
+- Property cannot have another active contract.
+
+---
+
+## Request
+
+```json
+{
+  "idInmueble": "uuid",
+  "idInquilino": "uuid",
+  "idDuenio": "uuid",
+  "fechaInicioContrato": "2026-01-01T00:00:00Z",
+  "fechaFinContrato": "2027-01-01T00:00:00Z",
+  "montoActual": 500000,
+  "indiceActualizacion": "IPC",
+  "periodoActualizacion": "MENSUAL",
+  "garantes": []
+}
+```
+
+---
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "idContrato": "uuid"
+  }
+}
+```
+
+---
+
+## Errors
+
+Possible errors:
+
+```text
+VALIDATION_ERROR
+RESOURCE_NOT_FOUND
+PROPERTY_ALREADY_RENTED
+TENANT_ACCESS_DENIED
+```
+
+---
+
+# PUT /api/v1/contracts/:id
+
+## Purpose
+
+Updates an existing contract.
+
+---
+
+## Authentication
+
+Required.
+
+Header:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+## Allowed Scope
+
+```text
+TENANT
+```
+
+---
+
+## Allowed Roles
+
+```text
+ADMIN
+MANAGER
+```
+
+---
+
+## Editable Fields
+
+Allowed:
+
+```text
+fechaFinContrato
+montoActual
+indiceActualizacion
+periodoActualizacion
+garantes
+comentarios
+```
+
+---
+
+## Audit
+
+Required.
+
+Example:
+
+```text
+Contract updated:
+
+montoActual:
+500000 -> 600000
+```
+
+---
+
+## Request
+
+```json
+{
+  "montoActual": 600000,
+  "indiceActualizacion": "IPC",
+  "periodoActualizacion": "TRIMESTRAL"
+}
+```
+
+---
+
+## Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "updated": true
+  }
+}
+```
+
+---
+
+# DELETE /api/v1/contracts/:id
+
+## Purpose
+
+Soft deletes a contract.
+
+---
+
+## Authentication
+
+Required.
+
+Header:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+## Allowed Scope
+
+```text
+TENANT
+```
+
+---
+
+## Allowed Roles
+
+```text
+ADMIN
+```
+
+---
+
+## Behavior
+
+Never physically delete.
+
+Update:
+
+```json
+{
+  "deletedAt": "2026-01-01T10:00:00Z"
+}
+```
+
+---
+
+# Contract Guarantors
+
+Guarantors are managed as part of contract data.
+
+Structure:
+
+```json
+{
+  "idContacto": "uuid",
+  "comentario": "Guarantees full amount",
+  "porcentaje": 100,
+  "fechaInicio": "2026-01-01T00:00:00Z",
+  "fechaFin": "2027-01-01T00:00:00Z"
+}
+```
+
+Rules:
+
+- Guarantor must exist as contact.
+- Contact must belong to current tenant.
 - Changes must be audited.
 
 ---
 
-# Payments Relationship
+# Contract Amount History
 
-Contract owns payment lifecycle.
-
-Relationship:
-
-```
-Contract
- |
- +-- Payments
-```
-
-Payments contain:
-
-- Rental periods.
-- Amounts.
-- Due dates.
-- Payment status.
-- Delays.
-
----
-
-# Contract Documents
-
-Contracts may contain:
-
-- Signed contract files.
-- Attachments.
-- Legal documentation.
-
-Documents must be stored through document services.
-
----
-
-# Filtering Rules
-
-Every query must include:
-
-```
-inmobiliariaId = currentUser.inmobiliariaId
-```
-
-Forbidden:
-
-```
-contractDAO.findAll()
-```
-
-Required:
-
-```
-contractDAO.findAllByTenant(currentTenant)
-```
-
----
-
-# Audit Rules
-
-Audit required for:
-
-- Contract creation.
-- Contract modification.
-- Amount changes.
-- Date changes.
-- Guarantor changes.
-- Contract deletion.
+Every amount change must preserve history.
 
 Example:
 
+```json
+{
+  "fecha": "2026-04-01T00:00:00Z",
+  "monto": 600000,
+  "comentario": "IPC update"
+}
 ```
-User:
-Carlos
 
-Action:
-UPDATE_CONTRACT_AMOUNT
+Rules:
 
-Before:
-500000
+- Never overwrite previous amounts.
+- Add new history entry.
 
-After:
-600000
+---
+
+# Contract Status
+
+Calculated from dates.
+
+Possible states:
+
+```text
+ACTIVE
+EXPIRED
+CANCELLED
 ```
 
 ---
 
-# Security Rules
+# DAO Requirements
 
-- Tenant isolation mandatory.
-- Contract cannot reference another tenant property.
-- Contract cannot reference external contacts.
-- Financial information requires authorization.
+Required DAO:
+
+```typescript
+ContractDAO
+
+create()
+
+findById()
+
+findAll()
+
+findActiveByPropertyId()
+
+findByTenantId()
+
+update()
+
+softDelete()
+```
 
 ---
 
-# Related Documentation
+# Service Requirements
 
-- `properties.md`
-- `payments.md`
-- `contacts.md`
-- `documents.md`
-- `audit.md`
-- `api-guidelines.md`
+Required service:
+
+```typescript
+ContractService
+
+createContract()
+
+getContract()
+
+listContracts()
+
+updateContract()
+
+deleteContract()
+
+calculateStatus()
+
+updateAmount()
+```
+
+Services must:
+
+- Validate business rules.
+- Check tenant ownership.
+- Create audit records.
+- Never access filesystem directly.
+
+---
+
+# Validation Rules
+
+Required fields:
+
+```text
+idInmueble
+idInquilino
+idDuenio
+fechaInicioContrato
+fechaFinContrato
+montoActual
+indiceActualizacion
+periodoActualizacion
+```
+
+---
+
+# Future Extensions
+
+Possible future features:
+
+```text
+Electronic signatures.
+Contract templates.
+Automatic renewals.
+Legal document generation.
+Contract notifications.
+Rent adjustments automation.
+```

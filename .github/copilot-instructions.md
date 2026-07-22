@@ -23,6 +23,29 @@ This repository contains a commercial multi-tenant SaaS platform for real estate
 Before implementing any feature, read the relevant documentation under the `.github` directory. Do not make architectural assumptions.
 
 
+# Documentation Usage Rules
+
+## Purpose
+
+Project documentation is split into multiple files to reduce context size and improve AI efficiency.
+
+Do not load all documentation by default.
+
+Read only documentation required for the current task.
+
+---
+
+# Documentation Discovery Process
+
+Before making changes:
+
+1. Identify the type of task.
+2. Locate the related documentation area.
+3. Read the minimum required files.
+4. Follow architecture and security rules before coding.
+
+---
+
 ## Documentation Index
 Before generating code, read the relevant documentation in this order:
 
