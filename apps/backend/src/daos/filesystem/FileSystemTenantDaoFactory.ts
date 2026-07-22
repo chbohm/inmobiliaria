@@ -1,3 +1,4 @@
+import { existsSync, readdirSync } from 'fs';
 import path from 'path';
 
 import { DataPaths } from '../../common/paths';
@@ -89,8 +90,21 @@ export class FileSystemTenantDaoFactory {
         return new FileSystemCollectionDao(path.join(this.inmoFolder, 'password_resets.json'), PasswordResetSchema);
     }
 
-    public getInmueblesDao() {
-        return new FileSystemCollectionDao(path.join(this.inmoFolder, 'inmuebles-index.json'), InmuebleSchema);
+    public listInmuebleIds(): string[] {
+        const inmueblesRoot = this.dataPaths.tenantInmueblesRoot(this.inmobiliariaId);
+        if (!existsSync(inmueblesRoot)) {
+            return [];
+        }
+
+        return readdirSync(inmueblesRoot, { withFileTypes: true })
+            .filter((entry) => entry.isDirectory() && entry.name.startsWith('inmueble_'))
+            .map((entry) => entry.name)
+            .filter((folderName) => existsSync(path.join(inmueblesRoot, folderName, 'inmueble.json')))
+            .map((folderName) => folderName.slice('inmueble_'.length));
+    }
+
+    public inmuebleExists(inmuebleId: string): boolean {
+        return existsSync(path.join(this.dataPaths.tenantInmuebleRoot(this.inmobiliariaId, inmuebleId), 'inmueble.json'));
     }
 
     public getInmuebleRepository(inmuebleId: string) {

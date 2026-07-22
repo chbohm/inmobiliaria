@@ -9,12 +9,15 @@ export class PropiedadService {
     ) {}
 
     public async list(inmobiliariaId: string): Promise<Inmueble[]> {
-        const items = await this.tenantFactoryBuilder(inmobiliariaId).getInmueblesDao().findAll();
+        const factory = this.tenantFactoryBuilder(inmobiliariaId);
+        const ids = factory.listInmuebleIds();
+        const items = await Promise.all(ids.map((id) => factory.getInmuebleRepository(id).read()));
         return items.filter((item) => !item.deletedAt);
     }
 
     public async findById(inmobiliariaId: string, idInmueble: string): Promise<Inmueble | undefined> {
-        const item = await this.tenantFactoryBuilder(inmobiliariaId).getInmueblesDao().findBy('idInmueble', idInmueble);
+        const factory = this.tenantFactoryBuilder(inmobiliariaId);
+        const item = await this.readInmueble(factory, idInmueble);
         if (!item || item.deletedAt) {
             return undefined;
         }
@@ -38,7 +41,6 @@ export class PropiedadService {
         };
 
         const factory = this.tenantFactoryBuilder(inmobiliariaId);
-        await factory.getInmueblesDao().create(inmueble);
         await factory.getInmuebleRepository(inmueble.idInmueble).write(inmueble);
 
         return inmueble;
@@ -46,7 +48,7 @@ export class PropiedadService {
 
     public async update(inmobiliariaId: string, idInmueble: string, payload: UpdatePropertyInput): Promise<Inmueble | undefined> {
         const factory = this.tenantFactoryBuilder(inmobiliariaId);
-        const current = await factory.getInmueblesDao().findBy('idInmueble', idInmueble);
+        const current = await this.readInmueble(factory, idInmueble);
         if (!current || current.deletedAt) {
             return undefined;
         }
@@ -58,7 +60,6 @@ export class PropiedadService {
             updatedAt: new Date().toISOString()
         };
 
-        await factory.getInmueblesDao().update('idInmueble', idInmueble, updated);
         await factory.getInmuebleRepository(idInmueble).write(updated);
 
         return updated;
@@ -66,7 +67,7 @@ export class PropiedadService {
 
     public async softDelete(inmobiliariaId: string, idInmueble: string): Promise<boolean> {
         const factory = this.tenantFactoryBuilder(inmobiliariaId);
-        const current = await factory.getInmueblesDao().findBy('idInmueble', idInmueble);
+        const current = await this.readInmueble(factory, idInmueble);
         if (!current || current.deletedAt) {
             return false;
         }
@@ -77,8 +78,15 @@ export class PropiedadService {
             updatedAt: new Date().toISOString()
         };
 
-        await factory.getInmueblesDao().update('idInmueble', idInmueble, deleted);
         await factory.getInmuebleRepository(idInmueble).write(deleted);
         return true;
+    }
+
+    private async readInmueble(factory: FileSystemTenantDaoFactory, inmuebleId: string): Promise<Inmueble | undefined> {
+        if (!factory.inmuebleExists(inmuebleId)) {
+            return undefined;
+        }
+
+        return factory.getInmuebleRepository(inmuebleId).read();
     }
 }
