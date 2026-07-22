@@ -1,0 +1,38 @@
+[
+    {
+        "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720001",
+        "nombre": "Christian",
+        "apellido": "Bohm",
+        "documento": "30123456",
+        "fechaNacimiento": "1985-03-14"
+    },
+    {
+        "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720002",
+        "nombre": "María",
+        "apellido": "Gómez Inquilina",
+        "documento": "28987654",
+        "fechaNacimiento": "1990-07-22"
+    },
+    {
+        "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720003",
+        "nombre": "Carlos",
+        "apellido": "Rodríguez",
+        "documento": "33445566",
+        "fechaNacimiento": "1978-11-05"
+    },
+    {
+        "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720004",
+        "nombre": "Lucía",
+        "apellido": "Fernández",
+        "documento": "35678901",
+        "fechaNacimiento": "1995-01-30"
+    },
+    {
+        "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720005",
+        "nombre": "Roberto",
+        "apellido": "Martínez",
+        "documento": "27111222",
+        "fechaNacimiento": "1982-09-18",
+        "deletedAt": "2026-04-01T10:30:00Z"
+    }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "idContacto": "8b1d7f36-0b68-4b8c-a01f-91cb4e510001",
+    "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720001",
+    "emails": [
+      "juan.perez@gmail.com"
+    ],
+    "telefonos": [
+      "+5493435123456"
+    ],
+    "direccion": "Av. San Martín 123, Paraná, Entre Ríos",
+    "comentarios": []
+  },
+  {
+    "idContacto": "8b1d7f36-0b68-4b8c-a01f-91cb4e510002",
+    "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720002",
+    "emails": [
+      "maria.gomez@gmail.com",
+      "mgomez@empresa.com"
+    ],
+    "telefonos": [
+      "+5491123456789",
+      "+5491133344455"
+    ],
+    "direccion": "Belgrano 456, Santa Fe",
+    "comentarios": []
+  },
+  {
+    "idContacto": "8b1d7f36-0b68-4b8c-a01f-91cb4e510003",
+    "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720003",
+    "emails": [
+      "crodriguez@yahoo.com"
+    ],
+    "telefonos": [
+      "+5493514567890"
+    ],
+    "direccion": "Bv. Chacabuco 890, Córdoba",
+    "comentarios": []
+  },
+  {
+    "idContacto": "8b1d7f36-0b68-4b8c-a01f-91cb4e510004",
+    "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720004",
+    "emails": [
+      "lucia.fernandez@hotmail.com"
+    ],
+    "telefonos": [
+      "+5492619876543"
+    ],
+    "direccion": "España 741, Mendoza",
+    "comentarios": []
+  },
+  {
+    "idContacto": "8b1d7f36-0b68-4b8c-a01f-91cb4e510005",
+    "idPersona": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720005",
+    "emails": [
+      "roberto.martinez@gmail.com"
+    ],
+    "telefonos": [
+      "+5493416123456"
+    ],
+    "direccion": "Oroño 1550, Rosario, Santa Fe",
+    "comentarios": [],
+    "deletedAt": "2026-04-01T10:30:00Z"
+  }
+]

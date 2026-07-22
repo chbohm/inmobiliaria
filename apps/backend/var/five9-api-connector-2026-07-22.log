@@ -1,0 +1,8 @@
+2026-07-22 08:55:54 info: [five9-api-connector] *********************************   LOADING CONFIG FROM config.qa.ts ***************************************  
+2026-07-22 08:55:55 info: [five9-api-connector]   
+2026-07-22 08:55:55 info: [five9-api-connector] ___________________________________________________________________________  
+2026-07-22 08:55:55 info: [five9-api-connector]               Starting Inmobiliaria SaaS Skeleton Application               
+2026-07-22 08:55:55 info: [five9-api-connector] ___________________________________________________________________________  
+2026-07-22 08:55:55 info: [five9-api-connector]   
+2026-07-22 08:55:55 info: [five9-api-connector] Configuration loaded for env=development port=8005  
+2026-07-22 08:55:55 info: [five9-api-connector] HTTP server listening on port 8005  

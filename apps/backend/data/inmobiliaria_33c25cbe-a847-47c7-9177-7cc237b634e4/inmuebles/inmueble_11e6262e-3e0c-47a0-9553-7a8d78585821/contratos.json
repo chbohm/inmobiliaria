@@ -1,0 +1,21 @@
+[
+  
+  {
+    "idContrato": "3d9d5d5b-5c9b-4d2a-b8d3-91a5fd5fd003",
+    "idInmueble": "11e6262e-3e0c-47a0-9553-7a8d78585821",
+    "idInquilino": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720002",
+    "idDuenio": "c8f74fd0-5b4c-44d6-9d4c-0d8f3c720001",
+    "fechaInicioContrato": "2026-02-01",
+    "fechaFinContrato": "2028-01-31",
+    "fechaProximaActualizacionMonto": "2026-05-01",
+    "montoActual": 390000,
+    "indiceActualizacion": "IPC",
+    "periodoActualizacion": "TRIMESTRAL",
+    "historialMontos": [],
+    "comentarios": [],
+    "garantes": [],
+    "contratoFileName": "contrato-lopez.pdf",
+    "createdAt": "2026-02-01T11:20:00Z",
+    "updatedAt": "2026-02-01T11:20:00Z"
+  }
+]

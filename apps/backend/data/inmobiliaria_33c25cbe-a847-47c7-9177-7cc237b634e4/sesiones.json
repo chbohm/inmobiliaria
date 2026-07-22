@@ -44,5 +44,14 @@
     "refreshTokenHash": "$2b$10$dnEfUq9NsezDHzz.l1lhVenunLvFmCLArn1Wib7YCfMhC0jjgd/S.",
     "createdAt": "2026-07-21T22:14:16.969Z",
     "expiresAt": "2026-08-20T22:14:16.969Z"
+  },
+  {
+    "id": "6f42049d-5759-4f8d-8dfb-9e2e52c72c61",
+    "scope": "TENANT",
+    "userId": "dd4a16fb-87a9-439c-a5d6-839056e7dd47",
+    "inmobiliariaId": "33c25cbe-a847-47c7-9177-7cc237b634e4",
+    "refreshTokenHash": "$2b$10$aGXBetdDE.SN1nXbLedh4OZHXoGZfW4cI/QLDv6v1bfe4qs9V0V5W",
+    "createdAt": "2026-07-22T11:56:08.181Z",
+    "expiresAt": "2026-08-21T11:56:08.181Z"
   }
 ]

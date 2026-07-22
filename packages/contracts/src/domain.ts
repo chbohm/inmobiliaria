@@ -129,6 +129,14 @@ export const AuditoriaSchema = z.object({
     timestamp: DateSchema
 });
 
+export const ComentarioSchema = z.object({
+    idComentario: UUIDSchema,
+    timestamp: DateSchema,
+    comentario: z.string(),
+    idUsuario: UUIDSchema
+});
+
+
 export const PersonaSchema = z.object({
     idPersona: UUIDSchema,
     nombre: z.string(),
@@ -136,13 +144,6 @@ export const PersonaSchema = z.object({
     documento: z.string(),
     fechaNacimiento: DateSchema.optional(),
     deletedAt: DateSchema.optional()
-});
-
-export const ComentarioSchema = z.object({
-    idComentario: UUIDSchema,
-    timestamp: DateSchema,
-    comentario: z.string(),
-    idUsuario: UUIDSchema
 });
 
 export const ContactoSchema = z.object({
